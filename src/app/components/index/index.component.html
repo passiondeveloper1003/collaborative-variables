@@ -1,0 +1,38 @@
+<mat-toolbar class="header">
+    <div class="header-section">
+        <div class="title">{{data.IndexPage.title}}</div>
+    </div>
+    <div class="header-section">
+        <button mat-fab color="primary" *ngIf="true" (click)="onAction()" hidden> <mat-icon>action</mat-icon> </button>
+        <button mat-fab color="primary" *ngIf="true" (click)="onLogOut()" hidden> <mat-icon>logout</mat-icon> </button>
+    </div>
+</mat-toolbar>
+
+<div class="main" [hidden]="isLoading">
+    <div hidden>{{sampleNumber}}</div>
+    <div class="entry">
+        <mat-card class="mat-card-entry">
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title>{{data.IndexPage.banner.title}}</mat-card-title>
+                    <mat-card-subtitle>{{data.IndexPage.banner.subtitle}}</mat-card-subtitle>
+                    <img mat-card-lg-image src="{{data.IndexPage.banner.imgurl}}">
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+                <div>{{data.IndexPage.banner.desc1}}</div>
+                <div>{{data.IndexPage.banner.desc2}}</div>
+                <div>{{data.IndexPage.banner.desc3}}</div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+
+    <app-option-nav-list></app-option-nav-list>
+</div>
+
+<div class="overlay" *ngIf="isLoading">
+    <div class="spinner-wrapper">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

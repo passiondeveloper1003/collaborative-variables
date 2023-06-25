@@ -1,0 +1,49 @@
+<mat-toolbar class="header">
+    <div class="header-section">
+        <button mat-icon-button [routerLink]="'/index'"> <mat-icon>arrow_back</mat-icon> </button>
+        <div class="title">{{title}}</div>
+    </div>
+    <div class="header-section">
+        <button mat-fab color="primary" *ngIf="true" (click)="onAction()" hidden> <mat-icon>action</mat-icon> </button>
+        <button mat-fab color="primary" *ngIf="true" (click)="onLogOut()" hidden> <mat-icon>logout</mat-icon> </button>
+    </div>
+</mat-toolbar>
+
+<div class="main" *ngIf="!isLoading">
+    <div hidden>{{sampleNumber}}</div>
+    <mat-card class="mat-card">
+        <mat-card-title class="mat-card-title">{{title}}</mat-card-title>
+        <mat-card-content class="mat-card-content">
+            <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+                <p>
+                    <mat-form-field class="mat-form-field">
+                        <mat-label>Campaign ID:</mat-label>
+                        <input type="text" matInput formControlName="campaignId">
+                    </mat-form-field>
+                </p>
+
+                <p *ngIf="isTeacher">
+                    <mat-form-field class="mat-form-field">
+                        <mat-label>Campaign Password:</mat-label>
+                        <input type="text" matInput formControlName="campaignPassword">
+                    </mat-form-field>
+                </p>
+
+                <p *ngIf="error" class="error">
+                    {{ error }}
+                </p>
+
+                <div class="buttons">
+                    <button mat-fab color="primary" type="submit">Join</button>
+                </div>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="overlay" *ngIf="isLoading">
+    <div class="spinner-wrapper">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

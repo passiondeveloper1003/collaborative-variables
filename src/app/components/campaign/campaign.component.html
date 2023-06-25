@@ -1,0 +1,191 @@
+<mat-toolbar class="header">
+    <div class="header-section">
+        <button mat-icon-button [routerLink]="'/index'"> <mat-icon>arrow_back</mat-icon> </button>
+        <div class="title">{{title}}</div>
+    </div>
+    <div class="header-section">
+        <button mat-fab color="primary" *ngIf="true" (click)="onAction()" hidden> <mat-icon>action</mat-icon> </button>
+        <button mat-fab color="primary" *ngIf="true" (click)="onLogOut()" hidden> <mat-icon>logout</mat-icon> </button>
+    </div>
+</mat-toolbar>
+
+<div class="main" [hidden]="isLoading">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="tabSelectedIndex">
+        <mat-tab label="About" class="about">
+            <mat-card class="mat-card">
+
+                <mat-nav-list>
+                    <a mat-list-item (click)="tabSelectedIndex=0">
+                        <mat-icon matListItemIcon>dot</mat-icon>
+                        <h3 matListItemTitle>About</h3>
+                        <p matListItemLine>Link : {{url}}</p>
+                    </a>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item (click)="tabSelectedIndex=1">
+                        <mat-icon matListItemIcon>dot</mat-icon>
+                        <h3 matListItemTitle>Take campaign</h3>
+                        <p matListItemLine>Take campaign</p>
+                    </a>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item (click)="tabSelectedIndex=2">
+                        <mat-icon matListItemIcon>dot</mat-icon>
+                        <h3 matListItemTitle>Data</h3>
+                        <p matListItemLine>Data</p>
+                    </a>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item (click)="tabSelectedIndex=3">
+                        <mat-icon matListItemIcon>dot</mat-icon>
+                        <h3 matListItemTitle>Analysis</h3>
+                        <p matListItemLine>Analysis</p>
+                    </a>
+                </mat-nav-list>
+            </mat-card>
+        </mat-tab>
+
+        <mat-tab label="Take campaign" class="take-campaign">
+            <!-- <mat-card class="mat-card" *ngFor="let question of questions; let i= index">
+                <div>{{question.questionText}}</div>
+            </mat-card> -->
+            <mat-expansion-panel [expanded]="true" class="mat-expansion-panel group-b">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Take campaign
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        This is a summary of the content (will be used for error message)
+                      </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <div *ngIf="(questions.length > 0); else noQuestions">
+                    <form class="form" [formGroup]="formGroupTakeCampaign" (ngSubmit)="submitTakeCampaign()">
+                        <div *ngFor="let question of questions; let i= index" class="unit">
+                            <mat-form-field class="mat-form-field mat-form-field-expand">
+                                <mat-label>[Q{{i+1}} {{question.questionVar}} as {{question.questionType}}]:
+                                    {{question.questionText}}</mat-label>
+                                <input type="text" matInput [formControlName]="i">
+                                <mat-icon matSuffix>mode_edit</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="unit">
+                            <p *ngIf="errorTakeCampaign" class="error">
+                                {{ errorTakeCampaign }}
+                            </p>
+                        </div>
+                        <div class="unit buttons">
+                            <button mat-fab color="primary" type="submit" [disabled]="!formGroupTakeCampaign.valid">
+                                <mat-icon>done</mat-icon> </button>
+                        </div>
+                    </form>
+                </div>
+                <ng-template #noQuestions>
+                    <div>There are no questions here</div>
+                </ng-template>
+
+            </mat-expansion-panel>
+        </mat-tab>
+
+        <mat-tab label="Data">
+            <mat-expansion-panel [expanded]="true" class="mat-expansion-panel group-c">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Data (Live update from backend)
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        This is a summary of the content (will be used for error message)
+                      </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <div class="unit buttons">
+                    <button mat-fab color="primary">CSV</button>
+                </div>
+                <table mat-table [dataSource]="recordDataSource2" matSort>
+                    <ng-container *ngIf="allRecords; else withoutData">
+                        <ng-container  *ngFor="let column of recordColumns" [matColumnDef]="column">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+                            <td mat-cell *matCellDef="let row; let i=index">
+                                <div *ngIf="column==recordColumns[0]" class="inline-buttons">
+                                        <button mat-mini-fab color="primary" *ngIf="isTeacher" (click)="deleteRecord(row[column])">
+                                            <mat-icon>delete</mat-icon>
+                                            <!--TODO: show only if teacher, not student-->
+                                        </button>
+                                    {{i+1}}:
+                                </div>
+                                <!-- {{row.get(column)}} -->
+                                {{row[column]}}
+                            </td>
+                        </ng-container>
+                </ng-container>
+                <ng-template #withoutData>
+                    <div>There is no data in database.</div>
+                </ng-template>
+                    <tr mat-header-row *matHeaderRowDef="recordColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: recordColumns;"></tr>
+                </table>
+            </mat-expansion-panel>
+        </mat-tab>
+
+        <mat-tab label="Analysis">
+            <mat-expansion-panel [expanded]="true" class="mat-expansion-panel group-d">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Plotly
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        This is a summary of the content (will be used for error message)
+                      </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <form class="form" [formGroup]="formGroupPlotly">
+                    <mat-form-field class="mat-form-field">
+                        <mat-label>Plotly Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option *ngFor="let type of plotlyTypes" [value]="type">
+                                {{type}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="mat-form-field">
+                        <mat-label>Input x</mat-label>
+                        <mat-select formControlName="x">
+                            <mat-option *ngFor="let type of recordColumnsWithoutFirst" [value]="type">
+                                {{type}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="mat-form-field">
+                        <mat-label>Input y</mat-label>
+                        <mat-select formControlName="y">
+                            <mat-option *ngFor="let type of recordColumnsWithoutFirst" [value]="type">
+                                {{type}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+                <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+                <div>{{this.graph.data[0].type}}</div>
+                <div>{{this.graph.data[0].x}}</div>
+                <div>{{this.graph.data[0].y}}</div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="true" class="mat-expansion-panel group-d">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Statistics
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        This is a summary of the content (will be used for error message)
+                      </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                TODO
+            </mat-expansion-panel>
+        </mat-tab>
+
+    </mat-tab-group>
+
+
+    <div>.</div>
+    <div hidden>{{sampleNumber}}</div>
+</div>
+
+<div class="overlay" *ngIf="isLoading">
+    <div class="spinner-wrapper">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

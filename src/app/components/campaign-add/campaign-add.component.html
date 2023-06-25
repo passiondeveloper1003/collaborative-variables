@@ -1,0 +1,97 @@
+<mat-toolbar class="header">
+    <div class="header-section">
+        <button mat-icon-button [routerLink]="'/index'"> <mat-icon>arrow_back</mat-icon> </button>
+        <div class="title">{{content.title}}</div>
+    </div>
+    <div class="header-section">
+        <button mat-fab color="primary" *ngIf="true" (click)="onCreate()"> <mat-icon>done</mat-icon> </button>
+        <button mat-fab color="primary" *ngIf="true" (click)="onAction()" hidden> <mat-icon>action</mat-icon> </button>
+        <button mat-fab color="primary" *ngIf="true" (click)="onLogOut()" hidden> <mat-icon>logout</mat-icon> </button>
+    </div>
+</mat-toolbar>
+
+<div class="main" [hidden]="isLoading">
+    <mat-expansion-panel [expanded]="true" class="mat-expansion-panel group-a">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{content.info.title}}
+            </mat-panel-title>
+            <!-- <mat-panel-description>
+            This is a summary of the content (will be used for error message)
+          </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <div class="content">
+            <p hidden>This is the primary content of the panel.</p>
+            <form class="form" [formGroup]="formGroupA">
+                <mat-form-field class="mat-form-field">
+                    <mat-label>{{content.info.attr1}} </mat-label>
+                    <input type="text" matInput formControlName="campaignId" [(ngModel)]="campaign.campaignId" [readonly]="true" required>
+                    <!-- <mat-icon matSuffix>mode_edit</mat-icon> -->
+                </mat-form-field>
+                <mat-form-field class="mat-form-field">
+                    <mat-label>{{content.info.attr2}}</mat-label>
+                    <input type="text" matInput formControlName="campaignPassword" [(ngModel)]="campaign.password" required>
+                    <mat-icon matSuffix>mode_edit</mat-icon>
+                </mat-form-field>
+                <mat-form-field class="mat-form-field mat-form-field-expand">
+                    <mat-label>{{content.info.attr3}}</mat-label>
+                    <mat-select formControlName="selectedQuickOption" required [(ngModel)]="campaign.option">
+                        <mat-option *ngFor="let option of quickOptions" [value]="option.value"
+                            [style.disabled]="(!debugAdvanced)&&option==quickOptions[quickOptions.length-1]">
+                            {{ option.label }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+    </mat-expansion-panel>
+
+
+    <mat-expansion-panel [expanded]="true" class="mat-expansion-panel group-b">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Campaign Questions
+            </mat-panel-title>
+            <!-- <mat-panel-description>
+            This is a summary of the content (will be used for error message)
+          </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <div class="content">
+            <p hidden>This is the primary content of the panel.</p>
+            <div *ngFor="let question of questions; let i=index">
+                <app-question [question]="questions[i]" (questionChange)="questionChange($event, i)"></app-question>
+                <div hidden>{{this.questionToJson(question)}}</div>
+            </div>
+
+            <div class="action-buttons" *ngIf="selectedQuickOption==quickOptions[quickOptions.length-1].value">
+                <button mat-fab color="primary" (click)="onAddQuestion()"> <mat-icon>add</mat-icon> </button>
+                <button mat-fab color="primary" (click)="onRemoveQuestion()"> <mat-icon>remove</mat-icon> </button>
+            </div>
+        </div>
+    </mat-expansion-panel>
+
+    <!--debug only group-c-->
+    <mat-expansion-panel [expanded]="true" class="mat-expansion-panel group-c">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Debug
+            </mat-panel-title>
+            <!-- <mat-panel-description>
+            This is a summary of the content (will be used for error message)
+          </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <div class="content">
+            <div>campaignId: {{formGroupA.get('campaignId')!.value}}</div>
+            <div>campaignPassword: {{formGroupA.get('campaignPassword')!.value}}</div>
+            <div>selectedQuickOption: {{formGroupA.get('selectedQuickOption')!.value}}</div>
+            <div *ngFor="let question of questions; let i= index">
+                {{this.questionToJson(question)}}
+            </div>
+
+        </div>
+    </mat-expansion-panel>
+</div>
+
+<div class="spinner-overlay" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>

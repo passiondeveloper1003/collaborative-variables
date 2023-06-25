@@ -1,0 +1,69 @@
+:host {
+    .header {
+        display: flex;
+        justify-content: space-between;
+
+        .header-section {
+            display: flex;
+
+            .title {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+
+    .main {
+        margin-left: 8px;
+        margin-right: 8px;
+
+        .error {
+            color: red;
+        }
+
+        .mat-form-field {
+            margin: 8px;
+            margin-bottom: -8px;
+            // width: 100%;
+            min-width: 248px;
+        }
+
+        .mat-form-field-expand {
+            flex: 1;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        // Group each below.
+
+        .group-a {
+            // TODO
+        }
+
+        .group-b {
+            .form {
+                display: flex;
+                flex-wrap: wrap;
+
+                .unit {
+                    display: flex;
+                    width: 100%;
+                }
+            }
+        }
+
+        .group-c {
+            .inline-buttons{
+                display: inline;
+            }
+        }
+    }
+
+    .overlay {
+        display: flex;
+        justify-content: center;
+    }
+}

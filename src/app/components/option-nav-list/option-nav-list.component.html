@@ -1,0 +1,23 @@
+<mat-nav-list>
+    <div matSubheader>{{data.DataStudent.title}}</div>
+    <a mat-list-item routerLink="/campaigns/join">
+        <mat-icon matListItemIcon>{{data.DataStudent.login.icon}}</mat-icon>
+        <h3 matListItemTitle>{{data.DataStudent.login.item_title}}</h3>
+        <p matListItemLine>{{data.DataStudent.login.item_subtitle}}</p>
+    </a>
+    <mat-divider></mat-divider>
+
+    <div matSubheader>{{data.DataTeacher.title}}</div>
+    <a mat-list-item routerLink="/campaigns/teacher/join">
+        <mat-icon matListItemIcon>{{data.DataTeacher.login.icon}}</mat-icon>
+        <h3 matListItemTitle>{{data.DataTeacher.login.item_title}}</h3>
+        <p matListItemLine>{{data.DataTeacher.login.item_subtitle}}</p>
+    </a>
+    <a mat-list-item routerLink="/campaigns/teacher/add">
+        <mat-icon matListItemIcon>{{data.DataTeacher.new.icon}}</mat-icon>
+        <h3 matListItemTitle>{{data.DataTeacher.new.item_title}}</h3>
+        <p matListItemLine>{{data.DataTeacher.new.item_subtitle}}</p>
+    </a>
+    <mat-divider></mat-divider>
+    
+</mat-nav-list>

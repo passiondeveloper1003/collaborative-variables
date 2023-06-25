@@ -1,0 +1,22 @@
+:host {
+    .mat-card {
+        --mdc-elevated-card-container-color: rgb(0 0 0 / 1.25%);
+        margin: 8px;
+    }
+
+    .form {
+        display: flex;
+        flex-wrap: wrap;
+
+        .mat-form-field {
+            margin: 8px;
+            margin-bottom: -8px;
+            // width: 100%;
+            min-width: 248px;
+        }
+
+        .mat-form-field-expand {
+            flex: 1;
+        }
+    }
+}

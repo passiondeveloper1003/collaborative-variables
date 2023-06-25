@@ -1,0 +1,29 @@
+<mat-sidenav-container fullscreen>
+  <mat-sidenav mode="over" #sidenav position="start" class="left-panel">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span class="center">Introduction to Data Science</span>
+      </mat-toolbar-row>
+      <mat-toolbar-row>
+        <h4>Collaborative Variables</h4>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <app-option-nav-list></app-option-nav-list>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Collaborative Variables</span>
+      <span class="toolbar-spacer"></span>
+      <div>
+        <!-- <a mat-button routerLink="/accounts">Accounts</a> -->
+      </div>
+    </mat-toolbar>
+    <div class="main-content"></div>
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

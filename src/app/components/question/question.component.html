@@ -1,0 +1,29 @@
+<p hidden>question works!</p>
+
+<mat-card class="mat-card">
+    <form class="form" [formGroup]="form">
+        <mat-form-field class="mat-form-field mat-form-field-expand">
+            <mat-label>Question #{{question.id}}</mat-label>
+            <input matInput formControlName="questionText">
+            <mat-icon matSuffix>mode_edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field class="mat-form-field">
+            <mat-label>Variable #{{question.id}}</mat-label>
+            <input matInput formControlName="questionVar">
+            <mat-icon matSuffix>mode_edit</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="mat-form-field">
+            <mat-label>Data Type</mat-label>
+            <mat-select formControlName="questionType">
+                <mat-option *ngFor="let type of questionTypes" [value]="type"
+                    [style.disabled]="(!debugAdvanced)&&(type!=defaultType)">
+                    {{type}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <div hidden>{{favoriteAnswer}}</div>
+    </form>
+</mat-card>
